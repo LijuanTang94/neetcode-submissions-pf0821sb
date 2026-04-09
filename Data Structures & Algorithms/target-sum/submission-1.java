@@ -1,0 +1,18 @@
+class Solution {
+    public int findTargetSumWays(int[] nums, int target) {
+        int sum = 0;
+        for(int num: nums) {
+            sum += num;
+        }
+        if ((sum + target) % 2 != 0 || (sum + target) < 0) return 0;
+        int p = (sum + target) / 2;
+        int[] dp = new int[p + 1];
+        dp[0] = 1;
+        for(int num: nums) {
+            for(int i = p; i >= num; i--) {
+                dp[i] += dp[i - num];
+            }
+        }
+        return dp[p];
+    }
+}
