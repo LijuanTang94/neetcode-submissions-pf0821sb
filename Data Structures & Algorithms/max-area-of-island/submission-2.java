@@ -1,30 +1,31 @@
 class Solution {
     int max = 0;
-    int[][] dirs = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}};
+    boolean[][] visited;
+    int count;
     public int maxAreaOfIsland(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
+        visited = new boolean[m][n];
         for(int i = 0; i < m; i++) {
             for(int j = 0; j < n; j++) {
-                if (grid[i][j] == 1) {
-                   max = Math.max(max, dfs(grid, i, j));
+                count = 0;
+                if (grid[i][j] == 1 && !visited[i][j]) {
+                    dfs(grid, i, j);
+                    max = Math.max(max, count);
                 }
             }
         }
         return max;
-    }
-    private int dfs(int[][] grid, int i, int j) {
-        grid[i][j] = 0;
-        int cur = 1;
-        for(int[] dir: dirs) {
-            int nexti = i + dir[0];
-            int nextj = j + dir[1];
-            if (nexti < 0 || nextj < 0 || nexti >= grid.length || nextj >= grid[0].length) continue;
-            if (grid[nexti][nextj] == 1) {
-                cur += dfs(grid, nexti, nextj);
-            }
-        }
-        return cur;
-    }
 
+    }
+    private void dfs(int[][] grid, int i, int j) {
+        if (i < 0 || j < 0 || i >= grid.length || j >= grid[0].length) return;
+        if (visited[i][j] || grid[i][j] == 0) return;
+        count++;
+        visited[i][j] = true;
+        dfs(grid, i + 1, j);
+        dfs(grid, i - 1, j);
+        dfs(grid, i, j + 1);
+        dfs(grid, i, j - 1);
+    }
 }
