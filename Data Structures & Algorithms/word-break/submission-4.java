@@ -1,0 +1,16 @@
+class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        Set<String> set = new HashSet<>(wordDict);
+        int n = s.length();
+        boolean[] dp = new boolean[n + 1];
+        dp[n] = true;
+        for(int i = n - 1; i >= 0; i--) {
+            for(int j = i + 1; j <= s.length(); j++) {
+                if (set.contains(s.substring(i, j)) && dp[j]) {
+                    dp[i] = true;
+                }
+            }
+        }
+        return dp[0];
+    }
+}
